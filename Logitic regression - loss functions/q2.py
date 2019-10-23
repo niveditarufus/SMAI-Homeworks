@@ -21,7 +21,7 @@ for i in range(10):
 	temp1 = 1/sigmoid(temp1)
 	log_loss.append(np.log(temp1))
 ax1.plot(temp,log_loss,'r-')
-ax1.set_title('negative log likelihood')
+ax1.set_title('negative log loss')
 
 temp =[]
 loss =[]
