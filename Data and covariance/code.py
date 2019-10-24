@@ -36,7 +36,6 @@ from scipy.stats import multivariate_normal
 
 
 
-# plt.show()
 mean1 = [3,3]
 # cov1 = 3*np.identity(2)
 cov1 = [[3,1],[2,3]]
