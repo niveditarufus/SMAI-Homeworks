@@ -3,7 +3,6 @@ import random
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d, Axes3D
 from scipy.stats import multivariate_normal
-from sklearn.svm import SVC
 
 
 
