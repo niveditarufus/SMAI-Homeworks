@@ -30,6 +30,4 @@ dataset = [[2,3,1],[3,2,1],[3,5,1],[0,0,-1],[1,2,-1],[2,0,-1]]
 weights = [1,1,1]
 weights = train_weights(dataset, l_rate, n_epoch,weights)
 print(weights)
- 
-# test predictions
 
