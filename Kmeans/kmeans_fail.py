@@ -1,28 +1,50 @@
+from sklearn.metrics import pairwise_distances_argmin
+from pandas import DataFrame
 import matplotlib.pyplot as plt
-import seaborn as sns; sns.set()
 import numpy as np
-from sklearn.datasets.samples_generator import make_blobs
 
 
-# x = np.arange(0,50)
-# X = np.vstack((x,x))
+x = [-1,-1,0,0,1,1,0,0]
+y = [1,-1,0.5,-0.5,1,-1,1,-1]
 
-# X = X.T
-X = np.array([[0,3],[1,3],[10,20],[11,20],[100,50],[101,50]])
-print(X.shape)
-plt.scatter(X[:, 0], X[:, 1], s=50);
+X = np.asarray(list(zip(x, y)))
 
-from sklearn.cluster import KMeans
-kmeans = KMeans(n_clusters=4)
-kmeans.fit(X)
-y_kmeans = kmeans.predict(X)
-plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, s=50, cmap='viridis')
+def find_clusters(X, n_clusters, rseed=2):
+    # 1. Randomly choose clusters, here let it be:
+    centers = [[-0.5, 0],[ 0.5, 0]]
+    itercounter = 0
+    while True:
+        itercounter+=1
+        # 2a. Assign labels based on closest center
+        # the below determistic assignment is valid because
+        # the middle 4 datapoints can belong to either classes
+        if itercounter%2 == 0:
+            oldlabels = np.asarray([1,1,1,1,0,0,0,0])
+        else:
+            oldlabels =  np.asarray([1,1,0,0,0,0,1,1])
+        print(oldlabels)
+        
+        # 2b. Find new centers from means of points
+        new_centers = np.array([X[oldlabels == i].mean(0)
+                                for i in range(n_clusters)])
 
-centers = kmeans.cluster_centers_
-plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5)
+        print(new_centers)
+        
+        newlabels = pairwise_distances_argmin(X, new_centers)
+        print(newlabels)
+        
+        # 2c. Check for convergence 
+        # one is based on centers one is based on labels not changing
+        if np.all(oldlabels == newlabels):
+            break
+        # if np.all(centers == new_centers):
+        #     break
+        centers = new_centers
+    
+    return centers, newlabels, itercounter
+
+centers, labels, niter= find_clusters(X, 2)
+print(niter)
+plt.scatter(X[:, 0], X[:, 1], c=labels,
+            s=50, cmap='viridis');
 plt.show()
-
-# x <- y <- c(rep(0,3),rep(1,3),rep(10,20),rep(11,20),rep(100,50),rep(101,50))
-# m <- cbind(x,y)
-
-# plot(m, cex=4, lwd=2)
