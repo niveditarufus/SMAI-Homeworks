@@ -2,7 +2,6 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 def ezplot(s):
-    #Parse doesn't parse = sign so split
     lhs, rhs = s.replace("^","**").split("=")
     eqn_lhs = parse_expr(lhs)
     eqn_rhs = parse_expr(rhs)
